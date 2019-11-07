@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import './card.dart';
 import './addRemove.dart';
 import 'result.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 void main() => runApp(MyApp());
 
@@ -45,21 +46,16 @@ class _InputPageState extends State<InputPage> {
       child: Row(
         children: <Widget>[
           Expanded(
-            child: DSCard(
-              color: gender == 'male' ? Color(0xFF222222) : Color(0xFEEEEEE),
-              child: FlatButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(20),
-                  ),
-                ),
-                onPressed: () {
-                  selectGender('male');
-                },
+            child: GestureDetector(
+              onTap: () {
+                selectGender('male');
+              },
+              child: DSCard(
+                color: gender == 'male' ? Color(0xFF222222) : Color(0xFEEEEEE),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Icon(Icons.accessibility, size: 100),
+                    Icon(FontAwesomeIcons.mars, size: 100.0),
                     Text("Male", style: TextStyle(fontSize: 30)),
                   ],
                 ),
@@ -67,21 +63,17 @@ class _InputPageState extends State<InputPage> {
             ),
           ),
           Expanded(
-            child: DSCard(
-              color: gender == 'female' ? Color(0xFF222222) : Color(0xFEEEEEE),
-              child: FlatButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(20),
-                  ),
-                ),
-                onPressed: () {
-                  selectGender('female');
-                },
+            child: GestureDetector(
+              onTap: () {
+                selectGender('female');
+              },
+              child: DSCard(
+                color:
+                    gender == 'female' ? Color(0xFF222222) : Color(0xFEEEEEE),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Icon(Icons.accessibility, size: 100),
+                    Icon(FontAwesomeIcons.venus, size: 100),
                     Text(
                       "Female",
                       style: TextStyle(fontSize: 30),
@@ -184,27 +176,43 @@ class _InputPageState extends State<InputPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("BMI Caculator")),
+      appBar: AppBar(
+          title: Text(
+        "BMI Caculator",
+        style: TextStyle(
+            fontSize: 25.0, fontWeight: FontWeight.w500, letterSpacing: 6),
+      )),
       body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.all(10),
-          child: Column(
-            children: <Widget>[
-              renderGender(),
-              renderHeight(),
-              renderWeightAge(),
-              RaisedButton(
-                  child: Text("CALCULATE"),
+        child: Column(
+          children: <Widget>[
+            renderGender(),
+            renderHeight(),
+            renderWeightAge(),
+            Container(
+              margin: EdgeInsets.only(top: 10),
+              width: double.infinity,
+              height: 80.0,
+              child: RaisedButton(
+                  color: Colors.red[900],
+                  child: Text(
+                    "CALCULATE",
+                    style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: 8),
+                  ),
                   onPressed: () {
                     // add caculation
-                    double bmi = weight / (height * height) * 10000;
+                    double bmi =
+                        (weight / (height * height) * 100000).roundToDouble() /
+                            10;
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => ResultPage(bmi)));
                   }),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import './card.dart';
 import './addRemove.dart';
-import 'result.dart';
+import './result.dart';
+import './bmiCalculator.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 void main() => runApp(MyApp());
@@ -29,7 +30,7 @@ class InputPage extends StatefulWidget {
 
 class _InputPageState extends State<InputPage> {
   // String gender;
-  double height = 130;
+  double height = 130.0;
   int weight = 0;
   int age = 0;
   String gender = 'male';
@@ -128,7 +129,7 @@ class _InputPageState extends State<InputPage> {
               min: 130,
               max: 250,
               value: height,
-              divisions: 250,
+              divisions: 120,
               onChanged: (value) => heightController(value),
             ),
           ],
@@ -203,13 +204,15 @@ class _InputPageState extends State<InputPage> {
                   ),
                   onPressed: () {
                     // add caculation
-                    double bmi =
-                        (weight / (height * height) * 100000).roundToDouble() /
-                            10;
+                    BMICalculator calculator = BMICalculator(height : height, weight : weight);
+                    String bmi = calculator.getBMI();
+                    String result = calculator.getResult();
+                    String interpretation = calculator.getInterpretation();
+                       
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ResultPage(bmi)));
+                            builder: (context) => ResultPage(bmi, result, interpretation)));
                   }),
             ),
           ],
